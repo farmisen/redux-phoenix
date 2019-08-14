@@ -26,7 +26,7 @@ export default {
       globals: {
         debug: 'debug',
         lodash: '_',
-        moment: 'dayjs',
+        dayjs: 'dayjs',
         immutable: 'Immutable',
       },
     },

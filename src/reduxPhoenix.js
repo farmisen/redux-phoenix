@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import moment from 'dayjs';
+import dayjs from 'dayjs';
 import Immutable, { Map } from 'immutable';
 
 export const REHYDRATE = '@@REHYDRATE';
@@ -104,7 +104,7 @@ export default function persistStore(store, {
     const persistedValue = deserialize(persistedJson);
     const { persistedState, saveDate, migrations: appliedMigrations } = persistedValue || {};
     let state = persistedState;
-    if (expireDate && moment(saveDate).add(...expireDate).isBefore(moment())) {
+    if (expireDate && dayjs(saveDate).add(...expireDate).isBefore(dayjs())) {
       state = null;
     }
 
@@ -139,7 +139,7 @@ export default function persistStore(store, {
 
       storage.setItem(key, serialize({
         persistedState: subset,
-        saveDate: moment().valueOf(),
+        saveDate: dayjs().valueOf(),
         migrations: appliedMigrations,
       }));
     };

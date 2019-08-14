@@ -1,5 +1,5 @@
 import persistStore, { autoRehydrate, REHYDRATE, getMigrationsToRun } from 'reduxPhoenix';
-import moment from 'dayjs';
+import dayjs from 'dayjs';
 import sinon from 'sinon';
 
 describe('persistStore', () => {
@@ -122,7 +122,7 @@ describe('persistStore', () => {
           persistedState: {
             actualState: 'actualState',
           },
-          saveDate: moment().valueOf(),
+          saveDate: dayjs().valueOf(),
         });
       });
     });
@@ -144,7 +144,7 @@ describe('persistStore', () => {
           persistedState: {
             actualState: 'actualState',
           },
-          saveDate: moment().valueOf(),
+          saveDate: dayjs().valueOf(),
         });
       });
     });
@@ -169,7 +169,7 @@ describe('persistStore', () => {
           persistedState: {
             whitelisted: { whitelistedField: 'should be saved' },
           },
-          saveDate: moment().valueOf(),
+          saveDate: dayjs().valueOf(),
         });
       });
     });
@@ -249,7 +249,7 @@ describe('persistStore', () => {
               newReplacedKey: 'test data',
             },
           },
-          saveDate: moment().valueOf(),
+          saveDate: dayjs().valueOf(),
         });
       });
     });
@@ -291,7 +291,7 @@ describe('persistStore', () => {
               newReplacedKey: 'state.keyToReplace - test data',
             },
           },
-          saveDate: moment().valueOf(),
+          saveDate: dayjs().valueOf(),
         });
       });
     });
@@ -422,7 +422,7 @@ describe('persistStore', () => {
           persistedState: {
             actualState: 'actualState',
           },
-          saveDate: moment().valueOf(),
+          saveDate: dayjs().valueOf(),
           migrations: ['001-initial-migration', '003-new-migration'],
         });
       });
