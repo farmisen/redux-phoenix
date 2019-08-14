@@ -65,9 +65,10 @@ That's it. Now your redux state will be stored in localstorage.
        returns string which can be stored into storage.
      - **deserialize**: *function* (default: **JSON.parse**) a function which takes string from storage and returns
        object with redux state.
-     - **map**: *object* (default: **{}**) a [mapping transformation](https://github.com/adam-golab/redux-phoenix#transformation) wich will be applied to state before saving.
+     - **map**: *object* (default: **{}**) a [mapping transformation](https://github.com/adam-golab/redux-phoenix#transformation) which will be applied to state before saving.
      - **disabled**: *boolean* (default: **false**) disable persisting state.
-     - **throttle**: *number* (default: **0**) number of milisecond to wait between persisting the state, for values greater than 0 it uses [throttled](https://github.com/adam-golab/redux-phoenix#throttle) version.
+     - **throttle**: *number* (default: **0**) number of milliseconds to wait between persisting the state, for values greater than 0 it uses [throttled](https://github.com/adam-golab/redux-phoenix#throttle) version.
+     - **handleException**: *function* (default: **null**) a function which takes an error object thrown by a `storage.setItem()` exception and dictates how to handle it.
 
 #### `autoRehydrate`
 
