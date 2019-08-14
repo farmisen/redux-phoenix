@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
+import Immutable, { Map } from 'immutable';
 
 export const REHYDRATE = '@@REHYDRATE';
 
@@ -107,14 +108,15 @@ export default function persistStore(store, {
       state = null;
     }
 
-    if (state && migrations) {
+    let jsState = Map.isMap(state) ? state.toJS() : state;
+    if (jsState && migrations) {
       const migrationsToRun = getMigrationsToRun(appliedMigrations, migrations);
-      state = migrationsToRun.reduce((state, migration) => migration(state), state);
+      jsState = migrationsToRun.reduce((state, migration) => migration(state), state);
     }
 
     const persistedStateToMerge = whitelist
-      ? _.omit(_.pick(state, whitelist), blacklist)
-      : _.omit(state, blacklist);
+      ? _.omit(_.pick(jsState, whitelist), blacklist)
+      : _.omit(jsState, blacklist);
 
     store.dispatch({
       type: REHYDRATE,
@@ -122,10 +124,14 @@ export default function persistStore(store, {
     });
 
     const saveState = () => {
-      const state = transform(map, store.getState());
+      const state = store.getState();
+      let jsState = Map.isMap(state) ? state.toJS() : state;
+      jsState = transform(map, jsState);
+
+
       const subset = whitelist
-        ? _.omit(_.pick(state, whitelist), blacklist)
-        : _.omit(state, blacklist);
+        ? _.omit(_.pick(jsState, whitelist), blacklist)
+        : _.omit(jsState, blacklist);
 
       const appliedMigrations = migrations
         ? migrations.filter(migration => migration.up && migration.name).map(migration => migration.name)
@@ -159,8 +165,11 @@ export const autoRehydrate = next => (reducer, initialState, enhancer) => {
     initialState = undefined; // eslint-disable-line no-undefined
   }
   function rehydrateReducer(state, action) {
+    const isStateImmutable = Map.isMap(state);
+    const jsState = isStateImmutable? state.toJS() : state;
     if (action.type === REHYDRATE) {
-      return reducer(_.merge({}, state, action.payload), action);
+      const mergedState = _.merge({}, jsState, action.payload);
+      return reducer(isStateImmutable ? Immutable.fromJS(mergedState) : mergedState, action);
     }
     return reducer(state, action);
   }

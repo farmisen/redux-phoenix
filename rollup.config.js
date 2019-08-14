@@ -27,6 +27,7 @@ export default {
         debug: 'debug',
         lodash: '_',
         moment: 'moment',
+        immutable: 'Immutable',
       },
     },
   ],
