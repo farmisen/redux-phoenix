@@ -1,5 +1,5 @@
 import persistStore, { autoRehydrate, REHYDRATE, getMigrationsToRun } from 'reduxPhoenix';
-import moment from 'moment';
+import moment from 'dayjs';
 import sinon from 'sinon';
 
 describe('persistStore', () => {

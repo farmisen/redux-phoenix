@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import moment from 'moment';
+import moment from 'dayjs';
 import Immutable, { Map } from 'immutable';
 
 export const REHYDRATE = '@@REHYDRATE';
