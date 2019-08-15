@@ -141,7 +141,7 @@ export default function persistStore(store, {
       // overwrite storage value; catch exceptions and handle
       const exceptionHandler = handleException && typeof handleException === 'function'
         ? handleException
-        : e => console.log(e.message || 'storage error: setItem()');
+        : (e, storage) => console.log(e.message || 'storage error: setItem()');
 
       try {
         storage.setItem(key, serialize({
@@ -150,7 +150,7 @@ export default function persistStore(store, {
           migrations: appliedMigrations,
         }));
       } catch (e) {
-        exceptionHandler(e);
+        exceptionHandler(e, storage);
       }
     };
 

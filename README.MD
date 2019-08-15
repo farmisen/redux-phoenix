@@ -68,7 +68,7 @@ That's it. Now your redux state will be stored in localstorage.
      - **map**: *object* (default: **{}**) a [mapping transformation](https://github.com/adam-golab/redux-phoenix#transformation) which will be applied to state before saving.
      - **disabled**: *boolean* (default: **false**) disable persisting state.
      - **throttle**: *number* (default: **0**) number of milliseconds to wait between persisting the state, for values greater than 0 it uses [throttled](https://github.com/adam-golab/redux-phoenix#throttle) version.
-     - **handleException**: *function* (default: **null**) a function which takes an error object thrown by a `storage.setItem()` exception and dictates how to handle it.
+     - **handleException**: *function* (default: **null**) a function which takes 1) an error object thrown by a `storage.setItem()` exception, and 2) the `storage` reference, and dictates how to handle the error.
 
 #### `autoRehydrate`
 
