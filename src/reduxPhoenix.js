@@ -96,6 +96,7 @@ export default function persistStore(store, {
   disabled = false,
   throttle = 0,
   migrations = null,
+  handleException = null,
 } = {}) {
   return Promise.resolve(storage.getItem(key)).then(persistedJson => {
     if (disabled) {
@@ -137,11 +138,20 @@ export default function persistStore(store, {
         ? migrations.filter(migration => migration.up && migration.name).map(migration => migration.name)
         : undefined; // eslint-disable-line no-undefined
 
-      storage.setItem(key, serialize({
-        persistedState: subset,
-        saveDate: moment().valueOf(),
-        migrations: appliedMigrations,
-      }));
+      // overwrite storage value; catch exceptions and handle
+      const exceptionHandler = handleException && typeof handleException === 'function'
+        ? handleException
+        : e => console.log(e.message || 'storage error: setItem()');
+
+      try {
+        storage.setItem(key, serialize({
+          persistedState: subset,
+          saveDate: moment().valueOf(),
+          migrations: appliedMigrations,
+        }));
+      } catch (e) {
+        exceptionHandler(e);
+      }
     };
 
     const throttledSubscribe = _.throttle(saveState, throttle, {
