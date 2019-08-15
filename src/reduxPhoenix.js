@@ -141,7 +141,7 @@ export default function persistStore(store, {
       // overwrite storage value; catch exceptions and handle
       const exceptionHandler = handleException && typeof handleException === 'function'
         ? handleException
-        : (e, storage) => console.log(e.message || 'storage error: setItem()');
+        : (e, storage) => {}; // noop
 
       try {
         storage.setItem(key, serialize({
